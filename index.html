@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medición de Temperatura</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.4.0/dist/chartjs-plugin-annotation.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <div class="logo-icon">🌡️</div>
+            <h1 class="title">MEDICIÓN DE TEMPERATURA</h1>
+        </div>
+        <div class="status-bar">
+            <div class="clock" id="clock">00:00:00</div>
+        </div>
+        <div class="control-buttons">
+            <button class="control-button" id="startStopBtn">Empezar</button>
+            <button class="control-button" id="exportBtn">Exportar Datos</button>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="left-panel">
+            <!-- Sección de configuración -->
+            <div class="config-section">
+                <!-- Configuración de Muestreo -->
+                <div class="config-card">
+                    <h2 class="section-title">📊 Configuración de Muestreo</h2>
+                    <div class="form-group">
+                        <label class="form-label">Número de Muestras</label>
+                        <input type="number" class="form-input" id="sampleCount" value="1000" min="1" max="5000">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Intervalo de Reporte (ms)</label>
+                        <input type="number" class="form-input" id="reportInterval" value="500" min="100" max="5000">
+                    </div>
+                </div>
+
+                <!-- Ajustes de Calibración -->
+                <div class="config-card">
+                    <h2 class="section-title">🎚️ Ajustes de Calibración</h2>
+                    <div class="form-group">
+                        <label class="form-label">Temperatura de ebullición (°C)<br>Punto de Referencia Alto</label>
+                        <input type="number" class="form-input" id="highRef" value="100" step="0.1">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Temperatura de fusión (°C)<br>Punto de Referencia Bajo </label>
+                        <input type="number" class="form-input" id="lowRef" value="0" step="0.1">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Factor de Corrección</label>
+                        <div class="slider-container">
+                            <input type="range" class="slider" id="correctionFactor" min="0.8" max="1.2" step="0.01" value="1.0">
+                            <div class="form-value" id="correctionFactorValue">1.00</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Parte central: gráfica -->
+        <div class="center-panel">
+            <div class="chart-container">
+                <canvas id="temperatureChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Parte derecha: tarjetas -->
+        <div class="right-panel">
+            <div class="data-card">
+                <div class="data-header">
+                    <span class="data-label">Sensor Analógico</span>
+                    <span class="data-unit">°C</span>
+                </div>
+                <hr class="data-divider">
+                <div class="data-value analog-value" id="analogValue">--.-</div>
+            </div>
+
+            <div class="data-card">
+                <div class="data-header">
+                    <span class="data-label">Sensor Digital</span>
+                    <span class="data-unit">°C</span>
+                </div>
+                <hr class="data-divider">
+                <div class="data-value digital-value" id="digitalValue">--.-</div>
+            </div>
+
+            <div class="data-card">
+                <div class="data-header">
+                    <span class="data-label">Diferencia</span>
+                    <span class="data-unit">°C</span>
+                </div>
+                <hr class="data-divider">
+                <div class="data-value difference-value" id="differenceValue">--.-</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Consola de registro -->
+    <div class="console">
+        <div class="console-header">
+            <h3 class="console-title">CONSOLA DE REGISTRO</h3>
+            <div class="console-actions">
+                <button class="console-btn" id="clearConsoleBtn">Limpiar</button>
+            </div>
+        </div>
+        <div class="console-log" id="consoleLog">
+            <div class="log-entry info"><span class="log-time">[00:00:00]</span> Sistema inicializado</div>
+            <div class="log-entry info"><span class="log-time">[00:00:00]</span> Sensores detectados</div>
+            <div class="log-entry success"><span class="log-time">[00:00:00]</span> Listo para calibración</div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
