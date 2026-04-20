@@ -138,6 +138,6 @@ T(°C) = 0.5586 × bits − 324.3
 
 ## 👩‍💻 Autora de la interfaz
 
-**Aileen Monserrat García Cano** — Ingeniería Física, FIUADY
+**Gabriela Yasmin Vidales Ayala** — Ingeniería Física, FIUADY
 
 Proyecto académico desarrollado para la materia de Instrumentación y Control, semestre enero–mayo 2025. Docente: Renán Gabriel Quijano Cetina.
