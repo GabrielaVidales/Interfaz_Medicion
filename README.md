@@ -2,8 +2,6 @@
 
 Interfaz web para la adquisición, visualización y almacenamiento de datos de temperatura provenientes de dos sensores —uno analógico (LM335) y uno digital (DS18B20)— conectados a un Arduino UNO. Desarrollada como proyecto final de la materia de **Instrumentación y Control** en la Facultad de Ingeniería de la UADY (enero–mayo 2025).
 
-> **Nota:** Esta interfaz fue desarrollada de forma independiente por Aileen Monserrat García Cano como parte del proyecto de calibración comparativa de sensores de temperatura.
-
 ---
 
 ## 📋 Descripción
