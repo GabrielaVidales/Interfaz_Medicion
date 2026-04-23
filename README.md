@@ -2,6 +2,20 @@
 
 Interfaz web para la adquisición, visualización y almacenamiento de datos de temperatura provenientes de dos sensores —uno analógico (LM335) y uno digital (DS18B20)— conectados a un Arduino UNO. Desarrollada como proyecto final de la materia de **Instrumentación y Control** en la Facultad de Ingeniería de la UADY (enero–mayo 2025).
 
+> **Nota:** Esta interfaz fue desarrollada de forma independiente por **Gabriela Yasmin Vidales Ayala** como parte del proyecto de calibración comparativa de sensores de temperatura.
+
+---
+
+## 🖼️ Vista previa
+
+**Interfaz en funcionamiento** — captura tomada a los 45 minutos del experimento, durante la etapa de enfriamiento tras superar el punto de ebullición:
+
+![Interfaz de medición en tiempo real](assets/interfaz.png)
+
+**Modelo de calibración** — relación lineal entre los bits crudos del sensor analógico LM335 y la temperatura registrada por el DS18B20:
+
+![Gráfica de calibración bits vs temperatura](assets/calibracion.png)
+
 ---
 
 ## 📋 Descripción
@@ -32,13 +46,17 @@ El experimento para el que fue diseñada consistió en:
 
 ```
 Interfaz_Medicion/
-├── app.py            # Servidor Flask + lectura serial + escritura CSV
-├── index.html        # Estructura del frontend
-├── styles.css        # Estilos de la interfaz
-├── script.js         # Lógica del frontend, Chart.js y polling a la API
-├── requirements.txt  # Dependencias Python
-├── Dockerfile        # Imagen Docker lista para producción
-└── render.yaml       # Configuración de despliegue en Render
+├── app.py                                      # Servidor Flask + lectura serial + escritura CSV
+├── index.html                                  # Estructura del frontend
+├── styles.css                                  # Estilos de la interfaz
+├── script.js                                   # Lógica del frontend, Chart.js y polling a la API
+├── requirements.txt                            # Dependencias Python
+├── Dockerfile                                  # Imagen Docker lista para producción
+├── render.yaml                                 # Configuración de despliegue en Render
+├── datos_temperatura_20250518_calibracion.csv  # Dataset del experimento (limpio)
+└── assets/
+    ├── interfaz.png                            # Captura de la interfaz en funcionamiento
+    └── calibracion.png                         # Gráfica de calibración bits vs temperatura
 ```
 
 ---
@@ -106,17 +124,17 @@ docker run -p 5000:5000 --device=/dev/ttyUSB0 interfaz-medicion
 
 ## 📊 Datos del experimento
 
-Los datos recopilados durante la sesión de calibración (18/05/2025) están disponibles en el archivo `datos_temperatura_20250518_210743_GRAFICAS_FINALES.csv`. El dataset contiene **11 278 registros limpios** (tras depurar outliers por encima de 100 °C y una discontinuidad por pérdida de contacto del sensor analógico con el agua).
+Los datos recopilados durante la sesión de calibración (18/05/2025) están disponibles en [`datos_temperatura_20250518_calibracion.csv`](datos_temperatura_20250518_calibracion.csv). El dataset contiene **11 268 registros limpios** tras eliminar outliers físicamente imposibles (>100 °C) y la columna duplicada generada por Excel.
 
-| Columna                        | Descripción                                      |
-|-------------------------------|--------------------------------------------------|
-| `Tiempo`                       | Marca de tiempo (YYYY-MM-DD HH:MM:SS)           |
-| `Sensor_Analogico`             | Temperatura LM335 convertida a °C               |
-| `Sensor_Digital`               | Temperatura DS18B20 en °C                       |
-| `Diferencia`                   | Diferencia entre ambos sensores (°C)            |
-| `Datos_Crudos_Sensor_Analogico`| Lectura cruda del ADC en bits (0–1023)          |
+| Columna                         | Descripción                                 |
+|---------------------------------|---------------------------------------------|
+| `Tiempo`                        | Marca de tiempo (YYYY-MM-DD HH:MM:SS)       |
+| `Sensor_Analogico`              | Temperatura LM335 convertida a °C           |
+| `Sensor_Digital`                | Temperatura DS18B20 en °C                   |
+| `Diferencia`                    | Diferencia entre ambos sensores (°C)        |
+| `Datos_Crudos_Sensor_Analogico` | Lectura cruda del ADC en bits (0–1023)      |
 
-La relación entre los bits crudos del LM335 y la temperatura del DS18B20 sigue el modelo lineal:
+La relación entre los bits crudos del LM335 y la temperatura del DS18B20 sigue el modelo lineal obtenido de la curva de calibración:
 
 ```
 T(°C) = 0.5586 × bits − 324.3
